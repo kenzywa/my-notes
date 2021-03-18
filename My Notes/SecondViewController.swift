@@ -1,29 +1,28 @@
-//
-//  SecondViewController.swift
-//  My Notes
-//
-//  Created by Roman Shukailo on 18.03.21.
-//
-
 import UIKit
 
 class SecondViewController: UIViewController {
+    
+    let bigTextField = UITextField(frame: CGRect(x: 0, y: 0, width: .max, height: .max ))
+        
+    var note : ListNotes?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+        self.view.backgroundColor = .systemBackground
+        self.title = note?.title
+        
+        bigTextField.center = CGPoint(x: 50,y: 0)
+        bigTextField.textAlignment = .center
+        bigTextField.font = bigTextField.font?.withSize(20)
+        bigTextField.backgroundColor = .clear
+        bigTextField.text = "Hello"
+        bigTextField.textColor = .blue
+        self.view.addSubview(bigTextField)
+        
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        
+  
     }
-    */
 
 }
+

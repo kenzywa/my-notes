@@ -1,6 +1,6 @@
 import Foundation
 
-struct ListNotes {
+struct ListNotes : Codable {
     var title: String
     let id : String
 }
