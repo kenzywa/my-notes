@@ -15,29 +15,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.title = "Ваши заметки"
         
         createTable()
-        firstTableView.reloadData()
-
-        
-        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                        target: self,
+                                        action: #selector(addNote))
+        navigationItem.leftBarButtonItem = addButton
         view.addSubview(firstTableView)
+        loadData()
     }
     
     func createTable() {
         self.firstTableView.frame = view.bounds
         firstTableView.register(UITableViewCell.self, forCellReuseIdentifier: identifier)
-        
-        
         self.firstTableView.delegate = self
         self.firstTableView.dataSource = self
-        
         firstTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        view.addSubview(firstTableView)
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add,
-                                        target: self,
-                                        action: #selector(addNote))
-        navigationItem.leftBarButtonItem = addButton
-        loadData()
     }
     @objc func addNote() {
         let alert = UIAlertController(title: "Новая заметка",
@@ -67,9 +58,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                       }))
         present(alert, animated: true, completion: nil)
     }
+    
     func saveData() {
         if let encoded = try? JSONEncoder().encode(notes) {
-            UserDefaults.standard.setValue(encoded, forKey: "NotesKeys")
+        UserDefaults.standard.setValue(encoded, forKey: "NotesKeys")
         }
     }
     
@@ -84,8 +76,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.notes = notes
         
     }
-   
-    
     //MARK: - UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,12 +91,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let note = notes[indexPath.row]
         let secondVC = SecondViewController()
         secondVC.note = note
         navigationController?.pushViewController(secondVC, animated: true)
     }
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         let editAction = UIContextualAction(style: .normal,
@@ -142,6 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let configuration = UISwipeActionsConfiguration(actions: [editAction])
         return configuration
     }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { [weak self] (action, view, handler) in
@@ -152,6 +145,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration
     }
+    
     //MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80.0
